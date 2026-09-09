@@ -15,257 +15,204 @@
   }
   *{box-sizing:border-box}
   body{
-    margin:0;
-    padding:0;
-    background:var(--papel);
-    color:var(--tinta);
+    margin:0;padding:0;
+    background:var(--papel);color:var(--tinta);
     font-family:"Karla",system-ui,sans-serif;
-    font-size:16px;
-    line-height:1.5;
+    font-size:16px;line-height:1.5;
     -webkit-font-smoothing:antialiased;
   }
   .env{max-width:760px;margin:0 auto;padding:28px 20px 64px}
 
-  /* topo */
-  .topo{margin-bottom:8px}
-  .topo h1{
-    font-family:"Newsreader",Georgia,serif;
-    font-weight:400;
-    font-size:1.35rem;
-    margin:0 0 2px;
-    letter-spacing:.2px;
-  }
+  .topo{margin-bottom:8px;display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+  .topo h1{font-family:"Newsreader",Georgia,serif;font-weight:400;font-size:1.35rem;margin:0 0 2px;letter-spacing:.2px}
   .topo p{margin:0;color:var(--tinta-fraca);font-size:.92rem}
-
-  /* painel do saldo */
-  .painel{
-    background:var(--papel-2);
-    border:1px solid var(--linha);
-    border-radius:18px;
-    padding:26px 24px 22px;
-    margin:20px 0 26px;
+  .sair{
+    flex:none;font:inherit;font-size:.85rem;font-weight:600;
+    background:#fff;color:var(--tinta);
+    border:1px solid var(--linha);border-radius:9px;
+    padding:7px 12px;cursor:pointer;
   }
+
+  /* entrada */
+  .porta{
+    background:var(--papel-2);border:1px solid var(--linha);
+    border-radius:18px;padding:34px 26px;margin:24px 0;
+    text-align:center;
+  }
+  .porta h2{margin:0 0 6px}
+  .porta p{color:var(--tinta-fraca);font-size:.95rem;margin:0 auto 22px;max-width:44ch}
+  .google{
+    font:inherit;font-weight:700;font-size:1rem;
+    background:var(--tinta);color:#fff;
+    border:none;border-radius:12px;
+    padding:14px 22px;cursor:pointer;
+  }
+  .google:hover{background:#16203a}
+
+  .painel{background:var(--papel-2);border:1px solid var(--linha);border-radius:18px;padding:26px 24px 22px;margin:20px 0 26px}
   .rotulo-saldo{font-size:.95rem;color:var(--tinta-fraca);margin:0}
   .saldo{
-    font-family:"Newsreader",Georgia,serif;
-    font-weight:500;
-    font-size:clamp(2.6rem,10vw,4rem);
-    line-height:1.05;
-    margin:2px 0 4px;
-    font-variant-numeric:tabular-nums;
-    letter-spacing:-1px;
+    font-family:"Newsreader",Georgia,serif;font-weight:500;
+    font-size:clamp(2.6rem,10vw,4rem);line-height:1.05;
+    margin:2px 0 4px;font-variant-numeric:tabular-nums;letter-spacing:-1px;
   }
   .saldo.quitado{color:var(--pinho)}
   .de{color:var(--tinta-fraca);font-size:.95rem;margin:0 0 20px}
-  .de button{
-    background:none;border:none;padding:0;
-    font:inherit;color:var(--pinho);
-    text-decoration:underline;cursor:pointer;
-  }
-  .barra{
-    height:14px;
-    background:#E1E7F3;
-    border-radius:99px;
-    overflow:hidden;
-    display:flex;
-  }
+  .de button{background:none;border:none;padding:0;font:inherit;color:var(--pinho);text-decoration:underline;cursor:pointer}
+  .barra{height:14px;background:#E1E7F3;border-radius:99px;overflow:hidden;display:flex}
   .barra span{display:block;height:100%;transition:width .45s ease}
   .fatia-item{background:var(--cobre)}
   .fatia-dinheiro{background:var(--pinho)}
-  .legenda{
-    display:flex;flex-wrap:wrap;gap:18px;
-    margin-top:14px;font-size:.9rem;
-  }
+  .legenda{display:flex;flex-wrap:wrap;gap:18px;margin-top:14px;font-size:.9rem}
   .legenda div{display:flex;align-items:center;gap:8px}
   .ponto{width:10px;height:10px;border-radius:3px;flex:none}
   .legenda b{font-weight:600;font-variant-numeric:tabular-nums}
   .pct{margin:14px 0 0;font-size:.9rem;color:var(--tinta-fraca)}
 
-  /* formulario */
-  h2{
-    font-family:"Newsreader",Georgia,serif;
-    font-weight:400;font-size:1.15rem;
-    margin:0 0 14px;
-  }
-  .form{
-    background:var(--papel-2);
-    border:1px solid var(--linha);
-    border-radius:18px;
-    padding:22px 24px 24px;
-  }
+  h2{font-family:"Newsreader",Georgia,serif;font-weight:400;font-size:1.15rem;margin:0 0 14px}
+  .form{background:var(--papel-2);border:1px solid var(--linha);border-radius:18px;padding:22px 24px 24px}
   .campos{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   .campo{display:flex;flex-direction:column;gap:6px}
   .campo.largo{grid-column:1 / -1}
   label{font-size:.9rem;font-weight:600}
   .dica{font-weight:400;color:var(--tinta-fraca)}
-  input[type=text],input[type=date],input[type=number]{
-    font:inherit;color:var(--tinta);
-    background:#fff;
-    border:1px solid var(--linha);
-    border-radius:11px;
-    padding:11px 13px;
-    width:100%;
+  input[type=text],input[type=date]{
+    font:inherit;color:var(--tinta);background:#fff;
+    border:1px solid var(--linha);border-radius:11px;
+    padding:11px 13px;width:100%;
   }
-  input:focus-visible,button:focus-visible{
-    outline:2.5px solid var(--pinho);
-    outline-offset:2px;
-  }
+  input:focus-visible,button:focus-visible{outline:2.5px solid var(--pinho);outline-offset:2px}
   .tipos{display:flex;gap:10px}
   .tipo{
-    flex:1;
-    display:flex;align-items:center;gap:9px;
-    border:1px solid var(--linha);
-    background:#fff;
-    border-radius:11px;
-    padding:11px 13px;
-    cursor:pointer;
-    font-size:.95rem;
+    flex:1;display:flex;align-items:center;gap:9px;
+    border:1px solid var(--linha);background:#fff;border-radius:11px;
+    padding:11px 13px;cursor:pointer;font-size:.95rem;
   }
   .tipo input{accent-color:var(--pinho);width:18px;height:18px;margin:0}
   .tipo.on{border-color:var(--pinho);box-shadow:inset 0 0 0 1px var(--pinho)}
   .salvar{
-    margin-top:18px;
-    width:100%;
+    margin-top:18px;width:100%;
     font:inherit;font-weight:700;font-size:1rem;
-    background:var(--tinta);color:#fff;
-    border:none;border-radius:12px;
+    background:var(--tinta);color:#fff;border:none;border-radius:12px;
     padding:14px;cursor:pointer;
   }
   .salvar:hover{background:#16203a}
-  .erro{color:var(--cobre);font-size:.9rem;margin:12px 0 0;min-height:0}
+  .salvar:disabled{background:var(--tinta-fraca);cursor:progress}
+  .secundario{
+    margin-top:10px;width:100%;font:inherit;font-weight:600;
+    background:#fff;color:var(--tinta);
+    border:1px solid var(--linha);border-radius:12px;padding:12px;cursor:pointer;
+  }
+  .erro{color:var(--cobre);font-size:.9rem;margin:12px 0 0}
+  .aviso-edicao{background:#FFF6E2;border:1px solid #E9D6A8;border-radius:11px;padding:10px 13px;font-size:.9rem;margin:0 0 16px}
 
-  /* historico */
   .hist{margin-top:38px}
-  .vazio{
-    color:var(--tinta-fraca);
-    border:1px dashed var(--linha);
-    border-radius:14px;
-    padding:22px;text-align:center;font-size:.95rem;
-  }
+  .vazio{color:var(--tinta-fraca);border:1px dashed var(--linha);border-radius:14px;padding:22px;text-align:center;font-size:.95rem}
   ul{list-style:none;margin:0;padding:0}
-  li{
-    display:grid;
-    grid-template-columns:1fr auto;
-    gap:4px 16px;
-    padding:16px 0;
-    border-top:1px solid var(--linha);
-  }
+  li{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:16px 0;border-top:1px solid var(--linha)}
   li:last-child{border-bottom:1px solid var(--linha)}
+  li.editando{background:#FFFDF4;box-shadow:inset 3px 0 0 var(--cobre);padding-left:12px}
   .desc{font-weight:600}
   .meta{font-size:.88rem;color:var(--tinta-fraca)}
-  .selo{
-    display:inline-block;
-    border-radius:6px;
-    padding:1px 7px;
-    font-size:.8rem;font-weight:600;
-    margin-right:8px;
-  }
+  .selo{display:inline-block;border-radius:6px;padding:1px 7px;font-size:.8rem;font-weight:600;margin-right:8px}
   .selo.item{background:#F6E4DB;color:#8A472A}
   .selo.dinheiro{background:#DCEDE7;color:#1F5B4C}
-  .valor{
-    text-align:right;
-    font-family:"Newsreader",Georgia,serif;
-    font-size:1.25rem;
-    font-variant-numeric:tabular-nums;
-  }
+  .valor{text-align:right;font-family:"Newsreader",Georgia,serif;font-size:1.25rem;font-variant-numeric:tabular-nums}
   .restou{text-align:right;font-size:.85rem;color:var(--tinta-fraca);font-variant-numeric:tabular-nums}
-  .acoes{
-    grid-column:1 / -1;
-    display:flex;gap:8px;
-    margin-top:10px;
-  }
-  .acoes button{
-    font:inherit;font-size:.88rem;font-weight:600;
-    background:#fff;
-    border:1px solid var(--linha);
-    border-radius:9px;
-    padding:7px 14px;
-    cursor:pointer;
-  }
+  .acoes{grid-column:1 / -1;display:flex;gap:8px;margin-top:10px}
+  .acoes button{font:inherit;font-size:.88rem;font-weight:600;background:#fff;border:1px solid var(--linha);border-radius:9px;padding:7px 14px;cursor:pointer}
   .acoes .editar{color:var(--tinta)}
   .acoes .editar:hover{border-color:var(--tinta)}
   .acoes .apagar{color:var(--cobre)}
   .acoes .apagar:hover{border-color:var(--cobre)}
-  li.editando{background:#FFFDF4;box-shadow:inset 3px 0 0 var(--cobre);padding-left:12px}
-  .secundario{
-    margin-top:10px;width:100%;
-    font:inherit;font-weight:600;
-    background:#fff;color:var(--tinta);
-    border:1px solid var(--linha);border-radius:12px;
-    padding:12px;cursor:pointer;
-  }
   .confirmar{
-    grid-column:1 / -1;
-    display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+    grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;gap:10px;
     margin-top:10px;padding:10px 13px;
-    background:#FBEBE4;border:1px solid #E3C3B4;border-radius:11px;
-    font-size:.9rem;
+    background:#FBEBE4;border:1px solid #E3C3B4;border-radius:11px;font-size:.9rem;
   }
   .confirmar strong{font-weight:600}
-  .confirmar button{
-    font:inherit;font-size:.88rem;font-weight:600;
-    border-radius:9px;padding:7px 14px;cursor:pointer;
-    border:1px solid var(--cobre);
-  }
+  .confirmar button{font:inherit;font-size:.88rem;font-weight:600;border-radius:9px;padding:7px 14px;cursor:pointer;border:1px solid var(--cobre)}
   .confirmar .sim{background:var(--cobre);color:#fff}
   .confirmar .nao{background:#fff;color:var(--tinta);border-color:var(--linha)}
-  .edita-inicial{
-    display:flex;flex-wrap:wrap;gap:8px;align-items:center;
-    margin:2px 0 20px;
-  }
+  .edita-inicial{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:2px 0 20px}
   .edita-inicial input{max-width:170px}
-  .edita-inicial button{
-    font:inherit;font-size:.9rem;font-weight:600;
-    border-radius:9px;padding:9px 14px;cursor:pointer;
-  }
+  .edita-inicial button{font:inherit;font-size:.9rem;font-weight:600;border-radius:9px;padding:9px 14px;cursor:pointer}
   .edita-inicial .ok{background:var(--tinta);color:#fff;border:1px solid var(--tinta)}
   .edita-inicial .nao{background:#fff;color:var(--tinta);border:1px solid var(--linha)}
-  .aviso-edicao{
-    background:#FFF6E2;border:1px solid #E9D6A8;
-    border-radius:11px;padding:10px 13px;
-    font-size:.9rem;margin:0 0 16px;
-  }
-  .carregando{color:var(--tinta-fraca);padding:40px 0;text-align:center}
 
-  .rodape{
-    margin:28px 0 0;
-    font-size:.85rem;
-    color:var(--tinta-fraca);
+  .rodape{margin:28px 0 0;font-size:.85rem;color:var(--tinta-fraca)}
+  .carregando{color:var(--tinta-fraca);padding:40px 0;text-align:center}
+  .falha{
+    background:#FBEBE4;border:1px solid #E3C3B4;border-radius:14px;
+    padding:18px 20px;font-size:.95rem;
   }
+  .falha code{background:#fff;padding:1px 5px;border-radius:5px;font-size:.9em}
 
   @media (max-width:560px){
     .campos{grid-template-columns:1fr}
-    .painel,.form{padding:20px 18px}
+    .painel,.form,.porta{padding:20px 18px}
   }
-  @media (prefers-reduced-motion:reduce){
-    .barra span{transition:none}
-  }
+  @media (prefers-reduced-motion:reduce){ .barra span{transition:none} }
 </style>
 
 <div class="env">
   <div class="topo">
-    <h1>Quanto ainda falta pagar para a mãe</h1>
-    <p>Cada compra ou pagamento lançado aqui desconto do total.</p>
+    <div>
+      <h1>Quanto ainda falta pagar para a mãe</h1>
+      <p>Cada compra ou pagamento lançado aqui desconta do total.</p>
+    </div>
+    <div id="canto"></div>
   </div>
 
-  <div id="app"><p class="carregando">Carregando os lançamentos…</p></div>
+  <div id="app"><p class="carregando">Conectando…</p></div>
 </div>
 
-<script>
-const CHAVE = "divida:controle";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import {
+  getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import {
+  getFirestore, doc, onSnapshot, setDoc
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+/* Configuração do projeto divida-ativa-e9135.
+   Esta chave é pública por natureza, quem protege os dados
+   são as regras do Firestore. */
+const firebaseConfig = {
+  apiKey: "AIzaSyBTR7cquCErH7pvv3s8-GkCylGar9zeqYU",
+  authDomain: "divida-ativa-e9135.firebaseapp.com",
+  projectId: "divida-ativa-e9135",
+  storageBucket: "divida-ativa-e9135.firebasestorage.app",
+  messagingSenderId: "30091629121",
+  appId: "1:30091629121:web:2918184fef1b6c73e0ecc0"
+};
+
+const CAMINHO = ["divida", "principal"];   // documento único usado pelas duas
 const INICIAL_PADRAO = 12933.68;
-let dados = { inicial: INICIAL_PADRAO, lancamentos: [] };
-let erro = "";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const ref = doc(db, ...CAMINHO);
+const provider = new GoogleAuthProvider();
+
+let usuario = null;
+let dados = null;
+let form = null;
 let editandoId = null;
 let confirmandoId = null;
 let editandoInicial = false;
 let rascunhoInicial = "";
-let form = null;
+let erro = "";
+let gravando = false;
+let ouvindo = null;
 
 const moeda = v => v.toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
 const dataBR = iso => { const [a,m,d] = iso.split("-"); return `${d}/${m}/${a}`; };
 const hoje = () => new Date().toISOString().slice(0,10);
 const vazio = () => ({ data: hoje(), valor: "", desc: "", tipo: "dinheiro" });
+const escapar = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
 function parseValor(txt){
   const limpo = String(txt).trim().replace(/[R$\s]/g,"").replace(/\./g,"").replace(",",".");
@@ -273,93 +220,90 @@ function parseValor(txt){
   return isFinite(n) ? n : NaN;
 }
 
-function escapar(s){
-  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
+/* ---------- entrar e sair ---------- */
 
-/* --- guarda dos dados ---------------------------------------------
-   Duas gavetas, usadas em conjunto:
-   1. window.storage, que existe quando a página abre dentro do Claude;
-   2. localStorage, que funciona quando o arquivo é aberto direto no
-      navegador, inclusive offline.
-   Grava nas duas que estiverem disponíveis e lê da que tiver dados. */
-
-let ondeSalvou = [];
-
-function temLocal(){
+async function entrar(){
+  erro = "";
   try{
-    localStorage.setItem("__t","1");
-    localStorage.removeItem("__t");
-    return true;
-  }catch(e){ return false; }
-}
-
-async function lerNuvem(){
-  if(typeof window.storage === "undefined" || !window.storage) return null;
-  try{
-    const r = await window.storage.get(CHAVE);
-    return r && r.value ? JSON.parse(r.value) : null;
-  }catch(e){ return null; }
-}
-
-function lerLocal(){
-  if(!temLocal()) return null;
-  try{
-    const bruto = localStorage.getItem(CHAVE);
-    return bruto ? JSON.parse(bruto) : null;
-  }catch(e){ return null; }
-}
-
-function valido(d){
-  return d && typeof d === "object" && Array.isArray(d.lancamentos) && typeof d.inicial === "number";
-}
-
-async function carregar(){
-  const nuvem = await lerNuvem();
-  const local = lerLocal();
-  const candidatos = [nuvem, local].filter(valido);
-
-  if(candidatos.length){
-    // fica com a versão que tem mais lançamentos registrados
-    candidatos.sort((a,b) => b.lancamentos.length - a.lancamentos.length);
-    dados = candidatos[0];
+    await signInWithPopup(auth, provider);
+  }catch(e){
+    if(e.code === "auth/popup-blocked" || e.code === "auth/cancelled-popup-request"){
+      erro = "O navegador bloqueou a janela do Google. Libere os pop-ups deste site e toque de novo.";
+    }else if(e.code === "auth/unauthorized-domain"){
+      erro = "Este endereço não está autorizado no Firebase. Adicione o domínio em Authentication, Settings, Domínios autorizados.";
+    }else if(e.code !== "auth/popup-closed-by-user"){
+      erro = "Não foi possível entrar: " + e.code;
+    }
+    render();
   }
+}
 
+async function sair(){
+  if(ouvindo){ ouvindo(); ouvindo = null; }
+  dados = null;
+  await signOut(auth);
+}
+
+onAuthStateChanged(auth, u => {
+  usuario = u;
+  erro = "";
   form = vazio();
+  editandoId = confirmandoId = null;
+  editandoInicial = false;
+
+  if(ouvindo){ ouvindo(); ouvindo = null; }
+
+  if(u){
+    dados = null;
+    render();
+    ouvindo = onSnapshot(ref, async snap => {
+      if(!snap.exists()){
+        dados = { inicial: INICIAL_PADRAO, lancamentos: [] };
+        await gravar();          // cria o documento na primeira vez
+      }else{
+        const d = snap.data();
+        dados = {
+          inicial: typeof d.inicial === "number" ? d.inicial : INICIAL_PADRAO,
+          lancamentos: Array.isArray(d.lancamentos) ? d.lancamentos : [],
+          porUltimo: d.porUltimo || "",
+          atualizadoEm: d.atualizadoEm || null
+        };
+      }
+      render();
+    }, e => {
+      erro = e.code === "permission-denied"
+        ? "Sua conta não tem permissão neste banco. Confira se o UID dela está nas regras do Firestore."
+        : "Falha ao ler os dados: " + e.code;
+      render();
+    });
+  }else{
+    render();
+  }
+});
+
+/* ---------- gravar ---------- */
+
+async function gravar(){
+  gravando = true;
   render();
-  if(candidatos.length) salvar();
+  try{
+    await setDoc(ref, {
+      inicial: dados.inicial,
+      lancamentos: dados.lancamentos,
+      porUltimo: usuario?.displayName || usuario?.email || "",
+      atualizadoEm: Date.now()
+    });
+    erro = "";
+  }catch(e){
+    erro = e.code === "permission-denied"
+      ? "Sem permissão para gravar. Verifique as regras do Firestore."
+      : "Não foi possível salvar: " + e.code;
+  }
+  gravando = false;
+  render();
 }
 
-async function salvar(){
-  ondeSalvou = [];
-
-  if(temLocal()){
-    try{
-      localStorage.setItem(CHAVE, JSON.stringify(dados));
-      ondeSalvou.push("neste navegador");
-    }catch(e){ /* segue para a outra gaveta */ }
-  }
-
-  if(typeof window.storage !== "undefined" && window.storage){
-    try{
-      await window.storage.set(CHAVE, JSON.stringify(dados));
-      ondeSalvou.push("na página do Claude");
-    }catch(e){ /* segue */ }
-  }
-
-  if(ondeSalvou.length === 0){
-    erro = "Não foi possível salvar. Este navegador está bloqueando o armazenamento da página.";
-  }
-  atualizarRodape();
-}
-
-function atualizarRodape(){
-  const el = document.getElementById("rodape");
-  if(!el) return;
-  el.textContent = ondeSalvou.length
-    ? `Salvo automaticamente ${ondeSalvou.join(" e ")}.`
-    : "Os lançamentos ficam salvos automaticamente no aparelho em que você abrir esta página.";
-}
+/* ---------- contas ---------- */
 
 function ordenados(){
   return [...dados.lancamentos].sort((a,b)=> a.data === b.data ? a.criadoEm - b.criadoEm : a.data.localeCompare(b.data));
@@ -373,19 +317,14 @@ function totais(){
   return { item, dinheiro, pago: item + dinheiro, saldo: dados.inicial - item - dinheiro };
 }
 
-function validar(){
-  const valor = parseValor(form.valor);
-  if(!form.data) return "Escolha a data do pagamento.";
-  if(!(valor > 0)) return "Digite um valor maior que zero, por exemplo 150,00.";
-  if(!form.desc.trim()) return "Escreva o que foi pago, por exemplo compra de mercado.";
-  return "";
-}
+/* ---------- lançamentos ---------- */
 
 function confirmarForm(){
-  const msg = validar();
-  if(msg){ erro = msg; return render(); }
-  erro = "";
   const valor = parseValor(form.valor);
+  if(!form.data){ erro = "Escolha a data do pagamento."; return render(); }
+  if(!(valor > 0)){ erro = "Digite um valor maior que zero, por exemplo 150,00."; return render(); }
+  if(!form.desc.trim()){ erro = "Escreva o que foi pago, por exemplo compra de mercado."; return render(); }
+  erro = "";
 
   if(editandoId){
     const l = dados.lancamentos.find(x => x.id === editandoId);
@@ -395,51 +334,38 @@ function confirmarForm(){
     dados.lancamentos.push({
       id: crypto.randomUUID(),
       data: form.data, desc: form.desc.trim(), valor, tipo: form.tipo,
-      criadoEm: Date.now()
+      criadoEm: Date.now(),
+      por: usuario?.displayName || usuario?.email || ""
     });
   }
   form = vazio();
-  salvar();
-  render();
+  gravar();
 }
 
 function editar(id){
   const l = dados.lancamentos.find(x => x.id === id);
   if(!l) return;
   editandoId = id;
+  confirmandoId = null;
   erro = "";
-  form = { data: l.data, valor: String(l.valor.toFixed(2)).replace(".",","), desc: l.desc, tipo: l.tipo };
+  form = { data: l.data, valor: l.valor.toFixed(2).replace(".",","), desc: l.desc, tipo: l.tipo };
   render();
   const campo = document.getElementById("valor");
   if(campo){ campo.focus(); campo.select(); }
 }
 
 function cancelarEdicao(){
-  editandoId = null;
-  erro = "";
-  form = vazio();
-  render();
+  editandoId = null; erro = ""; form = vazio(); render();
 }
 
-function pedirApagar(id){
-  confirmandoId = id;
-  erro = "";
-  render();
-}
-
-function cancelarApagar(){
-  confirmandoId = null;
-  render();
-}
+function pedirApagar(id){ confirmandoId = id; erro = ""; render(); }
+function cancelarApagar(){ confirmandoId = null; render(); }
 
 function apagar(id){
-  const l = dados.lancamentos.find(x => x.id === id);
-  if(!l) return;
   dados.lancamentos = dados.lancamentos.filter(x => x.id !== id);
   confirmandoId = null;
   if(editandoId === id){ editandoId = null; form = vazio(); }
-  salvar();
-  render();
+  gravar();
 }
 
 function abrirInicial(){
@@ -450,24 +376,55 @@ function abrirInicial(){
   const el = document.getElementById("inicial");
   if(el){ el.focus(); el.select(); }
 }
-
-function fecharInicial(){
-  editandoInicial = false;
-  erro = "";
-  render();
-}
-
+function fecharInicial(){ editandoInicial = false; erro = ""; render(); }
 function salvarInicial(){
   const n = parseValor(rascunhoInicial);
   if(!(n > 0)){ erro = "Valor da dívida inválido, nada foi alterado."; return render(); }
   dados.inicial = n;
   editandoInicial = false;
   erro = "";
-  salvar();
-  render();
+  gravar();
 }
 
+/* ---------- tela ---------- */
+
 function render(){
+  const canto = document.getElementById("canto");
+  const alvo = document.getElementById("app");
+
+  if(!firebaseConfig.apiKey || firebaseConfig.apiKey.includes("COLE_AQUI")){
+    canto.innerHTML = "";
+    alvo.innerHTML = `<div class="falha">
+      Falta colar o bloco <code>firebaseConfig</code> no início do script desta página.
+      Ele aparece no Firebase, em Configurações do projeto, na seção Seus aplicativos.
+    </div>`;
+    return;
+  }
+
+  canto.innerHTML = usuario
+    ? `<button class="sair" type="button" id="btn-sair">Sair</button>`
+    : "";
+  if(usuario) document.getElementById("btn-sair").onclick = sair;
+
+  if(!usuario){
+    alvo.innerHTML = `
+      <div class="porta">
+        <h2>Entrar para ver a dívida</h2>
+        <p>Use a conta Google do seu celular. As duas veem e lançam no mesmo saldo, atualizado na hora.</p>
+        <button class="google" type="button" id="btn-entrar">Entrar com Google</button>
+        ${erro ? `<p class="erro" role="alert">${escapar(erro)}</p>` : ""}
+      </div>`;
+    document.getElementById("btn-entrar").onclick = entrar;
+    return;
+  }
+
+  if(!dados){
+    alvo.innerHTML = erro
+      ? `<div class="falha">${escapar(erro)}</div>`
+      : `<p class="carregando">Buscando os lançamentos…</p>`;
+    return;
+  }
+
   const t = totais();
   const pctItem = dados.inicial > 0 ? Math.min(100, t.item / dados.inicial * 100) : 0;
   const pctDin = dados.inicial > 0 ? Math.min(100 - pctItem, t.dinheiro / dados.inicial * 100) : 0;
@@ -477,7 +434,7 @@ function render(){
   let corrido = dados.inicial;
   const linhas = ordenados().map(l => { corrido -= l.valor; return { ...l, restou: corrido }; }).reverse();
 
-  document.getElementById("app").innerHTML = `
+  alvo.innerHTML = `
     <section class="painel">
       <p class="rotulo-saldo">${quitado ? "Dívida quitada" : "Falta pagar"}</p>
       <p class="saldo${quitado ? " quitado" : ""}">${moeda(Math.max(0, t.saldo))}</p>
@@ -504,7 +461,7 @@ function render(){
 
     <section class="form">
       <h2>${editandoId ? "Editar lançamento" : "Lançar um pagamento"}</h2>
-      ${editandoId ? `<p class="aviso-edicao">Você está alterando um lançamento que já existe. Ao salvar, o saldo é recalculado.</p>` : ""}
+      ${editandoId ? `<p class="aviso-edicao">Você está alterando um lançamento que já existe. Ao salvar, o saldo é recalculado para as duas.</p>` : ""}
       <div class="campos">
         <div class="campo">
           <label for="data">Data</label>
@@ -532,9 +489,11 @@ function render(){
           </div>
         </div>
       </div>
-      <button class="salvar" type="button" id="btn-salvar">${editandoId ? "Salvar alteração" : "Lançar e descontar da dívida"}</button>
+      <button class="salvar" type="button" id="btn-salvar" ${gravando ? "disabled" : ""}>
+        ${gravando ? "Salvando…" : (editandoId ? "Salvar alteração" : "Lançar e descontar da dívida")}
+      </button>
       ${editandoId ? `<button class="secundario" type="button" id="btn-cancelar">Cancelar edição</button>` : ""}
-      ${erro ? `<p class="erro" role="alert">${erro}</p>` : ""}
+      ${erro ? `<p class="erro" role="alert">${escapar(erro)}</p>` : ""}
     </section>
 
     <section class="hist">
@@ -547,7 +506,7 @@ function render(){
                 <div class="desc">${escapar(l.desc)}</div>
                 <div class="meta">
                   <span class="selo ${l.tipo}">${l.tipo === "item" ? "Itens" : "Dinheiro"}</span>
-                  ${dataBR(l.data)}
+                  ${dataBR(l.data)}${l.por ? " · " + escapar(l.por) : ""}
                 </div>
               </div>
               <div>
@@ -568,10 +527,11 @@ function render(){
             </li>`).join("")}</ul>`}
     </section>
 
-    <p class="rodape" id="rodape"></p>
+    <p class="rodape">
+      Entrou como ${escapar(usuario.displayName || usuario.email)}. Tudo é salvo na nuvem e aparece na hora no outro celular.${
+        dados.porUltimo ? ` Última alteração feita por ${escapar(dados.porUltimo)}.` : ""}
+    </p>
   `;
-
-  atualizarRodape();
 
   const guardar = (id, campo) => {
     const el = document.getElementById(id);
@@ -596,25 +556,18 @@ function render(){
     document.getElementById("btn-inicial-ok").onclick = salvarInicial;
     document.getElementById("btn-inicial-nao").onclick = fecharInicial;
   }
+
   const cancelar = document.getElementById("btn-cancelar");
   if(cancelar) cancelar.onclick = cancelarEdicao;
 
   document.querySelectorAll('input[name=tipo]').forEach(r => {
     r.onchange = () => { form.tipo = r.value; render(); };
   });
-  document.querySelectorAll("[data-editar]").forEach(b => {
-    b.onclick = () => editar(b.dataset.editar);
-  });
-  document.querySelectorAll("[data-apagar]").forEach(b => {
-    b.onclick = () => pedirApagar(b.dataset.apagar);
-  });
-  document.querySelectorAll("[data-confirma]").forEach(b => {
-    b.onclick = () => apagar(b.dataset.confirma);
-  });
-  document.querySelectorAll("[data-cancela]").forEach(b => {
-    b.onclick = cancelarApagar;
-  });
+  document.querySelectorAll("[data-editar]").forEach(b => { b.onclick = () => editar(b.dataset.editar); });
+  document.querySelectorAll("[data-apagar]").forEach(b => { b.onclick = () => pedirApagar(b.dataset.apagar); });
+  document.querySelectorAll("[data-confirma]").forEach(b => { b.onclick = () => apagar(b.dataset.confirma); });
+  document.querySelectorAll("[data-cancela]").forEach(b => { b.onclick = cancelarApagar; });
 }
 
-carregar();
+render();
 </script>
