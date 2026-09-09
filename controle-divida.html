@@ -1,0 +1,544 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..500&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --papel:#EDF0F7;
+    --papel-2:#F7F9FD;
+    --tinta:#1E2A44;
+    --tinta-fraca:#6B7691;
+    --linha:#D3DAE9;
+    --pinho:#2F7A67;
+    --cobre:#B0603C;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    padding:0;
+    background:var(--papel);
+    color:var(--tinta);
+    font-family:"Karla",system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .env{max-width:760px;margin:0 auto;padding:28px 20px 64px}
+
+  /* topo */
+  .topo{margin-bottom:8px}
+  .topo h1{
+    font-family:"Newsreader",Georgia,serif;
+    font-weight:400;
+    font-size:1.35rem;
+    margin:0 0 2px;
+    letter-spacing:.2px;
+  }
+  .topo p{margin:0;color:var(--tinta-fraca);font-size:.92rem}
+
+  /* painel do saldo */
+  .painel{
+    background:var(--papel-2);
+    border:1px solid var(--linha);
+    border-radius:18px;
+    padding:26px 24px 22px;
+    margin:20px 0 26px;
+  }
+  .rotulo-saldo{font-size:.95rem;color:var(--tinta-fraca);margin:0}
+  .saldo{
+    font-family:"Newsreader",Georgia,serif;
+    font-weight:500;
+    font-size:clamp(2.6rem,10vw,4rem);
+    line-height:1.05;
+    margin:2px 0 4px;
+    font-variant-numeric:tabular-nums;
+    letter-spacing:-1px;
+  }
+  .saldo.quitado{color:var(--pinho)}
+  .de{color:var(--tinta-fraca);font-size:.95rem;margin:0 0 20px}
+  .de button{
+    background:none;border:none;padding:0;
+    font:inherit;color:var(--pinho);
+    text-decoration:underline;cursor:pointer;
+  }
+  .barra{
+    height:14px;
+    background:#E1E7F3;
+    border-radius:99px;
+    overflow:hidden;
+    display:flex;
+  }
+  .barra span{display:block;height:100%;transition:width .45s ease}
+  .fatia-item{background:var(--cobre)}
+  .fatia-dinheiro{background:var(--pinho)}
+  .legenda{
+    display:flex;flex-wrap:wrap;gap:18px;
+    margin-top:14px;font-size:.9rem;
+  }
+  .legenda div{display:flex;align-items:center;gap:8px}
+  .ponto{width:10px;height:10px;border-radius:3px;flex:none}
+  .legenda b{font-weight:600;font-variant-numeric:tabular-nums}
+  .pct{margin:14px 0 0;font-size:.9rem;color:var(--tinta-fraca)}
+
+  /* formulario */
+  h2{
+    font-family:"Newsreader",Georgia,serif;
+    font-weight:400;font-size:1.15rem;
+    margin:0 0 14px;
+  }
+  .form{
+    background:var(--papel-2);
+    border:1px solid var(--linha);
+    border-radius:18px;
+    padding:22px 24px 24px;
+  }
+  .campos{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .campo{display:flex;flex-direction:column;gap:6px}
+  .campo.largo{grid-column:1 / -1}
+  label{font-size:.9rem;font-weight:600}
+  .dica{font-weight:400;color:var(--tinta-fraca)}
+  input[type=text],input[type=date],input[type=number]{
+    font:inherit;color:var(--tinta);
+    background:#fff;
+    border:1px solid var(--linha);
+    border-radius:11px;
+    padding:11px 13px;
+    width:100%;
+  }
+  input:focus-visible,button:focus-visible{
+    outline:2.5px solid var(--pinho);
+    outline-offset:2px;
+  }
+  .tipos{display:flex;gap:10px}
+  .tipo{
+    flex:1;
+    display:flex;align-items:center;gap:9px;
+    border:1px solid var(--linha);
+    background:#fff;
+    border-radius:11px;
+    padding:11px 13px;
+    cursor:pointer;
+    font-size:.95rem;
+  }
+  .tipo input{accent-color:var(--pinho);width:18px;height:18px;margin:0}
+  .tipo.on{border-color:var(--pinho);box-shadow:inset 0 0 0 1px var(--pinho)}
+  .salvar{
+    margin-top:18px;
+    width:100%;
+    font:inherit;font-weight:700;font-size:1rem;
+    background:var(--tinta);color:#fff;
+    border:none;border-radius:12px;
+    padding:14px;cursor:pointer;
+  }
+  .salvar:hover{background:#16203a}
+  .erro{color:var(--cobre);font-size:.9rem;margin:12px 0 0;min-height:0}
+
+  /* historico */
+  .hist{margin-top:38px}
+  .vazio{
+    color:var(--tinta-fraca);
+    border:1px dashed var(--linha);
+    border-radius:14px;
+    padding:22px;text-align:center;font-size:.95rem;
+  }
+  ul{list-style:none;margin:0;padding:0}
+  li{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:4px 16px;
+    padding:16px 0;
+    border-top:1px solid var(--linha);
+  }
+  li:last-child{border-bottom:1px solid var(--linha)}
+  .desc{font-weight:600}
+  .meta{font-size:.88rem;color:var(--tinta-fraca)}
+  .selo{
+    display:inline-block;
+    border-radius:6px;
+    padding:1px 7px;
+    font-size:.8rem;font-weight:600;
+    margin-right:8px;
+  }
+  .selo.item{background:#F6E4DB;color:#8A472A}
+  .selo.dinheiro{background:#DCEDE7;color:#1F5B4C}
+  .valor{
+    text-align:right;
+    font-family:"Newsreader",Georgia,serif;
+    font-size:1.25rem;
+    font-variant-numeric:tabular-nums;
+  }
+  .restou{text-align:right;font-size:.85rem;color:var(--tinta-fraca);font-variant-numeric:tabular-nums}
+  .acoes{
+    grid-column:1 / -1;
+    display:flex;gap:8px;
+    margin-top:10px;
+  }
+  .acoes button{
+    font:inherit;font-size:.88rem;font-weight:600;
+    background:#fff;
+    border:1px solid var(--linha);
+    border-radius:9px;
+    padding:7px 14px;
+    cursor:pointer;
+  }
+  .acoes .editar{color:var(--tinta)}
+  .acoes .editar:hover{border-color:var(--tinta)}
+  .acoes .apagar{color:var(--cobre)}
+  .acoes .apagar:hover{border-color:var(--cobre)}
+  li.editando{background:#FFFDF4;box-shadow:inset 3px 0 0 var(--cobre);padding-left:12px}
+  .secundario{
+    margin-top:10px;width:100%;
+    font:inherit;font-weight:600;
+    background:#fff;color:var(--tinta);
+    border:1px solid var(--linha);border-radius:12px;
+    padding:12px;cursor:pointer;
+  }
+  .confirmar{
+    grid-column:1 / -1;
+    display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+    margin-top:10px;padding:10px 13px;
+    background:#FBEBE4;border:1px solid #E3C3B4;border-radius:11px;
+    font-size:.9rem;
+  }
+  .confirmar strong{font-weight:600}
+  .confirmar button{
+    font:inherit;font-size:.88rem;font-weight:600;
+    border-radius:9px;padding:7px 14px;cursor:pointer;
+    border:1px solid var(--cobre);
+  }
+  .confirmar .sim{background:var(--cobre);color:#fff}
+  .confirmar .nao{background:#fff;color:var(--tinta);border-color:var(--linha)}
+  .edita-inicial{
+    display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+    margin:2px 0 20px;
+  }
+  .edita-inicial input{max-width:170px}
+  .edita-inicial button{
+    font:inherit;font-size:.9rem;font-weight:600;
+    border-radius:9px;padding:9px 14px;cursor:pointer;
+  }
+  .edita-inicial .ok{background:var(--tinta);color:#fff;border:1px solid var(--tinta)}
+  .edita-inicial .nao{background:#fff;color:var(--tinta);border:1px solid var(--linha)}
+  .aviso-edicao{
+    background:#FFF6E2;border:1px solid #E9D6A8;
+    border-radius:11px;padding:10px 13px;
+    font-size:.9rem;margin:0 0 16px;
+  }
+  .carregando{color:var(--tinta-fraca);padding:40px 0;text-align:center}
+
+  @media (max-width:560px){
+    .campos{grid-template-columns:1fr}
+    .painel,.form{padding:20px 18px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .barra span{transition:none}
+  }
+</style>
+
+<div class="env">
+  <div class="topo">
+    <h1>Quanto ainda falta pagar para a mãe</h1>
+    <p>Cada compra ou pagamento lançado aqui desconto do total.</p>
+  </div>
+
+  <div id="app"><p class="carregando">Carregando os lançamentos…</p></div>
+</div>
+
+<script>
+const CHAVE = "divida:controle";
+const INICIAL_PADRAO = 12933.68;
+let dados = { inicial: INICIAL_PADRAO, lancamentos: [] };
+let erro = "";
+let editandoId = null;
+let confirmandoId = null;
+let editandoInicial = false;
+let rascunhoInicial = "";
+let form = null;
+
+const moeda = v => v.toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
+const dataBR = iso => { const [a,m,d] = iso.split("-"); return `${d}/${m}/${a}`; };
+const hoje = () => new Date().toISOString().slice(0,10);
+const vazio = () => ({ data: hoje(), valor: "", desc: "", tipo: "dinheiro" });
+
+function parseValor(txt){
+  const limpo = String(txt).trim().replace(/[R$\s]/g,"").replace(/\./g,"").replace(",",".");
+  const n = Number(limpo);
+  return isFinite(n) ? n : NaN;
+}
+
+function escapar(s){
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+async function carregar(){
+  try{
+    const r = await window.storage.get(CHAVE);
+    if(r && r.value) dados = JSON.parse(r.value);
+  }catch(e){ /* primeira vez, mantem o padrao */ }
+  form = vazio();
+  render();
+}
+
+async function salvar(){
+  try{
+    await window.storage.set(CHAVE, JSON.stringify(dados));
+  }catch(e){
+    erro = "Não foi possível salvar agora. Tente de novo.";
+    render();
+  }
+}
+
+function ordenados(){
+  return [...dados.lancamentos].sort((a,b)=> a.data === b.data ? a.criadoEm - b.criadoEm : a.data.localeCompare(b.data));
+}
+
+function totais(){
+  let item = 0, dinheiro = 0;
+  for(const l of dados.lancamentos){
+    if(l.tipo === "item") item += l.valor; else dinheiro += l.valor;
+  }
+  return { item, dinheiro, pago: item + dinheiro, saldo: dados.inicial - item - dinheiro };
+}
+
+function validar(){
+  const valor = parseValor(form.valor);
+  if(!form.data) return "Escolha a data do pagamento.";
+  if(!(valor > 0)) return "Digite um valor maior que zero, por exemplo 150,00.";
+  if(!form.desc.trim()) return "Escreva o que foi pago, por exemplo compra de mercado.";
+  return "";
+}
+
+function confirmarForm(){
+  const msg = validar();
+  if(msg){ erro = msg; return render(); }
+  erro = "";
+  const valor = parseValor(form.valor);
+
+  if(editandoId){
+    const l = dados.lancamentos.find(x => x.id === editandoId);
+    if(l){ l.data = form.data; l.desc = form.desc.trim(); l.valor = valor; l.tipo = form.tipo; }
+    editandoId = null;
+  }else{
+    dados.lancamentos.push({
+      id: crypto.randomUUID(),
+      data: form.data, desc: form.desc.trim(), valor, tipo: form.tipo,
+      criadoEm: Date.now()
+    });
+  }
+  form = vazio();
+  salvar();
+  render();
+}
+
+function editar(id){
+  const l = dados.lancamentos.find(x => x.id === id);
+  if(!l) return;
+  editandoId = id;
+  erro = "";
+  form = { data: l.data, valor: String(l.valor.toFixed(2)).replace(".",","), desc: l.desc, tipo: l.tipo };
+  render();
+  const campo = document.getElementById("valor");
+  if(campo){ campo.focus(); campo.select(); }
+}
+
+function cancelarEdicao(){
+  editandoId = null;
+  erro = "";
+  form = vazio();
+  render();
+}
+
+function pedirApagar(id){
+  confirmandoId = id;
+  erro = "";
+  render();
+}
+
+function cancelarApagar(){
+  confirmandoId = null;
+  render();
+}
+
+function apagar(id){
+  const l = dados.lancamentos.find(x => x.id === id);
+  if(!l) return;
+  dados.lancamentos = dados.lancamentos.filter(x => x.id !== id);
+  confirmandoId = null;
+  if(editandoId === id){ editandoId = null; form = vazio(); }
+  salvar();
+  render();
+}
+
+function abrirInicial(){
+  editandoInicial = true;
+  rascunhoInicial = dados.inicial.toFixed(2).replace(".",",");
+  erro = "";
+  render();
+  const el = document.getElementById("inicial");
+  if(el){ el.focus(); el.select(); }
+}
+
+function fecharInicial(){
+  editandoInicial = false;
+  erro = "";
+  render();
+}
+
+function salvarInicial(){
+  const n = parseValor(rascunhoInicial);
+  if(!(n > 0)){ erro = "Valor da dívida inválido, nada foi alterado."; return render(); }
+  dados.inicial = n;
+  editandoInicial = false;
+  erro = "";
+  salvar();
+  render();
+}
+
+function render(){
+  const t = totais();
+  const pctItem = dados.inicial > 0 ? Math.min(100, t.item / dados.inicial * 100) : 0;
+  const pctDin = dados.inicial > 0 ? Math.min(100 - pctItem, t.dinheiro / dados.inicial * 100) : 0;
+  const pctPago = dados.inicial > 0 ? Math.min(100, t.pago / dados.inicial * 100) : 0;
+  const quitado = dados.lancamentos.length > 0 && t.saldo <= 0.004;
+
+  let corrido = dados.inicial;
+  const linhas = ordenados().map(l => { corrido -= l.valor; return { ...l, restou: corrido }; }).reverse();
+
+  document.getElementById("app").innerHTML = `
+    <section class="painel">
+      <p class="rotulo-saldo">${quitado ? "Dívida quitada" : "Falta pagar"}</p>
+      <p class="saldo${quitado ? " quitado" : ""}">${moeda(Math.max(0, t.saldo))}</p>
+      ${editandoInicial
+        ? `<div class="edita-inicial">
+             <label for="inicial" class="dica">Total da dívida no início</label>
+             <input type="text" id="inicial" inputmode="decimal" value="${escapar(rascunhoInicial)}">
+             <button class="ok" type="button" id="btn-inicial-ok">Salvar</button>
+             <button class="nao" type="button" id="btn-inicial-nao">Cancelar</button>
+           </div>`
+        : `<p class="de">de ${moeda(dados.inicial)} no início ·
+             <button type="button" id="btn-inicial">corrigir esse total</button>
+           </p>`}
+      <div class="barra" role="img" aria-label="${pctPago.toFixed(1)} por cento da dívida já pago">
+        <span class="fatia-item" style="width:${pctItem}%"></span>
+        <span class="fatia-dinheiro" style="width:${pctDin}%"></span>
+      </div>
+      <div class="legenda">
+        <div><i class="ponto fatia-item"></i> Em itens <b>${moeda(t.item)}</b></div>
+        <div><i class="ponto fatia-dinheiro"></i> Em dinheiro <b>${moeda(t.dinheiro)}</b></div>
+      </div>
+      <p class="pct">Já foram pagos ${moeda(t.pago)}, ou ${pctPago.toFixed(1)}% do total.</p>
+    </section>
+
+    <section class="form">
+      <h2>${editandoId ? "Editar lançamento" : "Lançar um pagamento"}</h2>
+      ${editandoId ? `<p class="aviso-edicao">Você está alterando um lançamento que já existe. Ao salvar, o saldo é recalculado.</p>` : ""}
+      <div class="campos">
+        <div class="campo">
+          <label for="data">Data</label>
+          <input type="date" id="data" value="${form.data}">
+        </div>
+        <div class="campo">
+          <label for="valor">Valor <span class="dica">em reais</span></label>
+          <input type="text" id="valor" inputmode="decimal" placeholder="150,00" value="${escapar(form.valor)}">
+        </div>
+        <div class="campo largo">
+          <label for="desc">O que foi</label>
+          <input type="text" id="desc" placeholder="Compra de mercado, remédio, transferência…" value="${escapar(form.desc)}">
+        </div>
+        <div class="campo largo">
+          <label>Como foi pago</label>
+          <div class="tipos">
+            <label class="tipo${form.tipo === "item" ? " on" : ""}">
+              <input type="radio" name="tipo" value="item" ${form.tipo === "item" ? "checked" : ""}>
+              Itens que eu comprei
+            </label>
+            <label class="tipo${form.tipo === "dinheiro" ? " on" : ""}">
+              <input type="radio" name="tipo" value="dinheiro" ${form.tipo === "dinheiro" ? "checked" : ""}>
+              Dinheiro entregue a ela
+            </label>
+          </div>
+        </div>
+      </div>
+      <button class="salvar" type="button" id="btn-salvar">${editandoId ? "Salvar alteração" : "Lançar e descontar da dívida"}</button>
+      ${editandoId ? `<button class="secundario" type="button" id="btn-cancelar">Cancelar edição</button>` : ""}
+      ${erro ? `<p class="erro" role="alert">${erro}</p>` : ""}
+    </section>
+
+    <section class="hist">
+      <h2>Histórico ${linhas.length ? `· ${linhas.length} ${linhas.length === 1 ? "lançamento" : "lançamentos"}` : ""}</h2>
+      ${linhas.length === 0
+        ? `<p class="vazio">Nenhum pagamento lançado ainda. O primeiro aparece aqui.</p>`
+        : `<ul>${linhas.map(l => `
+            <li class="${editandoId === l.id ? "editando" : ""}">
+              <div>
+                <div class="desc">${escapar(l.desc)}</div>
+                <div class="meta">
+                  <span class="selo ${l.tipo}">${l.tipo === "item" ? "Itens" : "Dinheiro"}</span>
+                  ${dataBR(l.data)}
+                </div>
+              </div>
+              <div>
+                <div class="valor">− ${moeda(l.valor)}</div>
+                <div class="restou">restou ${moeda(Math.max(0, l.restou))}</div>
+              </div>
+              ${confirmandoId === l.id
+                ? `<div class="confirmar">
+                     <strong>Apagar este lançamento?</strong>
+                     <span>${moeda(l.valor)} voltam para a dívida.</span>
+                     <button class="sim" type="button" data-confirma="${l.id}">Sim, apagar</button>
+                     <button class="nao" type="button" data-cancela="1">Manter</button>
+                   </div>`
+                : `<div class="acoes">
+                     <button class="editar" type="button" data-editar="${l.id}">Editar</button>
+                     <button class="apagar" type="button" data-apagar="${l.id}">Apagar</button>
+                   </div>`}
+            </li>`).join("")}</ul>`}
+    </section>
+  `;
+
+  const guardar = (id, campo) => {
+    const el = document.getElementById(id);
+    el.oninput = () => { form[campo] = el.value; };
+    el.onkeydown = e => { if(e.key === "Enter") confirmarForm(); };
+  };
+  guardar("data", "data");
+  guardar("valor", "valor");
+  guardar("desc", "desc");
+
+  document.getElementById("btn-salvar").onclick = confirmarForm;
+
+  const btnInicial = document.getElementById("btn-inicial");
+  if(btnInicial) btnInicial.onclick = abrirInicial;
+  const campoInicial = document.getElementById("inicial");
+  if(campoInicial){
+    campoInicial.oninput = () => { rascunhoInicial = campoInicial.value; };
+    campoInicial.onkeydown = e => {
+      if(e.key === "Enter") salvarInicial();
+      if(e.key === "Escape") fecharInicial();
+    };
+    document.getElementById("btn-inicial-ok").onclick = salvarInicial;
+    document.getElementById("btn-inicial-nao").onclick = fecharInicial;
+  }
+  const cancelar = document.getElementById("btn-cancelar");
+  if(cancelar) cancelar.onclick = cancelarEdicao;
+
+  document.querySelectorAll('input[name=tipo]').forEach(r => {
+    r.onchange = () => { form.tipo = r.value; render(); };
+  });
+  document.querySelectorAll("[data-editar]").forEach(b => {
+    b.onclick = () => editar(b.dataset.editar);
+  });
+  document.querySelectorAll("[data-apagar]").forEach(b => {
+    b.onclick = () => pedirApagar(b.dataset.apagar);
+  });
+  document.querySelectorAll("[data-confirma]").forEach(b => {
+    b.onclick = () => apagar(b.dataset.confirma);
+  });
+  document.querySelectorAll("[data-cancela]").forEach(b => {
+    b.onclick = cancelarApagar;
+  });
+}
+
+carregar();
+</script>
