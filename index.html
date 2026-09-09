@@ -227,6 +227,12 @@
   }
   .carregando{color:var(--tinta-fraca);padding:40px 0;text-align:center}
 
+  .rodape{
+    margin:28px 0 0;
+    font-size:.85rem;
+    color:var(--tinta-fraca);
+  }
+
   @media (max-width:560px){
     .campos{grid-template-columns:1fr}
     .painel,.form{padding:20px 18px}
@@ -271,22 +277,88 @@ function escapar(s){
   return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
-async function carregar(){
+/* --- guarda dos dados ---------------------------------------------
+   Duas gavetas, usadas em conjunto:
+   1. window.storage, que existe quando a página abre dentro do Claude;
+   2. localStorage, que funciona quando o arquivo é aberto direto no
+      navegador, inclusive offline.
+   Grava nas duas que estiverem disponíveis e lê da que tiver dados. */
+
+let ondeSalvou = [];
+
+function temLocal(){
+  try{
+    localStorage.setItem("__t","1");
+    localStorage.removeItem("__t");
+    return true;
+  }catch(e){ return false; }
+}
+
+async function lerNuvem(){
+  if(typeof window.storage === "undefined" || !window.storage) return null;
   try{
     const r = await window.storage.get(CHAVE);
-    if(r && r.value) dados = JSON.parse(r.value);
-  }catch(e){ /* primeira vez, mantem o padrao */ }
+    return r && r.value ? JSON.parse(r.value) : null;
+  }catch(e){ return null; }
+}
+
+function lerLocal(){
+  if(!temLocal()) return null;
+  try{
+    const bruto = localStorage.getItem(CHAVE);
+    return bruto ? JSON.parse(bruto) : null;
+  }catch(e){ return null; }
+}
+
+function valido(d){
+  return d && typeof d === "object" && Array.isArray(d.lancamentos) && typeof d.inicial === "number";
+}
+
+async function carregar(){
+  const nuvem = await lerNuvem();
+  const local = lerLocal();
+  const candidatos = [nuvem, local].filter(valido);
+
+  if(candidatos.length){
+    // fica com a versão que tem mais lançamentos registrados
+    candidatos.sort((a,b) => b.lancamentos.length - a.lancamentos.length);
+    dados = candidatos[0];
+  }
+
   form = vazio();
   render();
+  if(candidatos.length) salvar();
 }
 
 async function salvar(){
-  try{
-    await window.storage.set(CHAVE, JSON.stringify(dados));
-  }catch(e){
-    erro = "Não foi possível salvar agora. Tente de novo.";
-    render();
+  ondeSalvou = [];
+
+  if(temLocal()){
+    try{
+      localStorage.setItem(CHAVE, JSON.stringify(dados));
+      ondeSalvou.push("neste navegador");
+    }catch(e){ /* segue para a outra gaveta */ }
   }
+
+  if(typeof window.storage !== "undefined" && window.storage){
+    try{
+      await window.storage.set(CHAVE, JSON.stringify(dados));
+      ondeSalvou.push("na página do Claude");
+    }catch(e){ /* segue */ }
+  }
+
+  if(ondeSalvou.length === 0){
+    erro = "Não foi possível salvar. Este navegador está bloqueando o armazenamento da página.";
+  }
+  atualizarRodape();
+}
+
+function atualizarRodape(){
+  const el = document.getElementById("rodape");
+  if(!el) return;
+  el.textContent = ondeSalvou.length
+    ? `Salvo automaticamente ${ondeSalvou.join(" e ")}.`
+    : "Os lançamentos ficam salvos automaticamente no aparelho em que você abrir esta página.";
 }
 
 function ordenados(){
@@ -495,7 +567,11 @@ function render(){
                    </div>`}
             </li>`).join("")}</ul>`}
     </section>
+
+    <p class="rodape" id="rodape"></p>
   `;
+
+  atualizarRodape();
 
   const guardar = (id, campo) => {
     const el = document.getElementById(id);
